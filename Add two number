@@ -1,0 +1,19 @@
+Node *addTwoNumbers(Node *head1, Node *head2)
+{
+    Node *resultHead = NULL, *tail = NULL;
+    int c = 0;
+    while(head1 != NULL || head2 != NULL) {
+        int sum = c + (head1 ? head1->data : 0) + (head2 ? head2->data : 0);
+        c = sum > 9 ? 1 : 0;
+        sum = sum % 10;
+        !resultHead ? (resultHead = new Node(sum), tail = resultHead) : 
+        (tail->next = new Node(sum),tail = tail->next); 
+        head1 ? head1 = head1 -> next : head1;
+        head2 ? head2 = head2 -> next : head2;
+    }
+    if(c > 0) {
+        tail->next = new Node(c);
+        tail = tail->next;
+    }
+    return resultHead;
+}
