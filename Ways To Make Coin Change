@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+
+long f(int ind,int k,int *v,vector<vector<long>>&dp){
+
+    if(ind==0){
+
+        return (k%v[0]==0);
+
+    }
+
+    if(dp[ind][k]!=-1){
+
+        return dp[ind][k];
+
+    }
+
+    long nontake=f(ind-1,k,v,dp);
+
+    long take=0;
+
+    if(v[ind]<=k){
+
+        take=f(ind,k-v[ind],v,dp);
+
+    }
+
+    return dp[ind][k]=(nontake+take);
+
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+
+{
+
+    vector<vector<long>>dp(n,vector<long>(value+1,-1));
+
+    return f(n-1,value,denominations,dp);
+
+    //Write your code here
+
+}
