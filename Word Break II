@@ -1,0 +1,109 @@
+#include <bits/stdc++.h> 
+class TriesNode{
+    public:
+        char val;
+        TriesNode* children[26];
+        bool isEnd;
+
+    TriesNode(){
+        val='A';
+        for(int i=0;i<26;i++){
+            children[i]=NULL;
+        }
+        isEnd=false;
+    }
+};
+
+class Tries{
+    public:
+        TriesNode* root;
+    
+    Tries(){
+        root= new TriesNode();
+    }
+
+    void insertUtil(TriesNode* root, string s){
+        if(s.size()==0){
+            root->isEnd=true;
+            return;
+        }   
+        int index = s[0]-'a';
+        if(root->children[index]!=NULL){
+            insertUtil(root->children[index],s.substr(1));
+        }else{
+            TriesNode* child = new TriesNode();
+            child->val = s[0];
+            root->children[index]=child;
+            insertUtil(child,s.substr(1));
+        }
+    }
+
+    void insert(string s){
+        insertUtil(root,s);
+    }
+
+    bool searchUtil(TriesNode* root, string s){
+        if(s.size()==0){
+            return root->isEnd;
+        }
+
+        int index = s[0]-'a';
+        if(root->children[index]!=NULL){
+            searchUtil(root->children[index],s.substr(1));
+        }else{
+            return false;
+        }
+    }
+    bool search(string s){
+        return searchUtil(root,s);
+    }
+
+    void f(string &s,TriesNode* temp,int i,string sen,vector<string> &ans){
+        // cout<<sen<<endl;
+        if(i==s.size()){
+            if(temp->isEnd){
+                ans.push_back(sen);
+            }
+            return;
+        }
+        if(temp->isEnd){
+            // cout<<"inseide "<<sen<<endl;
+            f(s,root,i,sen+" ",ans);
+            if(temp->children[s[i]-'a'] != NULL){
+                f(s,temp->children[s[i]-'a'],i+1,sen+s[i],ans);
+            }else{
+                return;
+            }
+        }
+        else{
+            if(temp->children[s[i]-'a'] != NULL){
+                f(s,temp->children[s[i]-'a'],i+1,sen+s[i],ans);
+            }else{
+                return;
+            }
+        }
+
+    }
+
+};
+
+
+vector<string> wordBreak(string &s, vector<string> &dictionary)
+{
+    // Write your code here
+    // cout<<s<<endl;
+    // cout<<dictionary.size()<<endl;
+    Tries* t = new Tries();
+    for(int i=0;i<dictionary.size();i++){
+        string str = dictionary[i];
+        t->insert(str);
+    }
+    // cout<<t->root->val<<endl;
+
+    vector<string> ans;
+    TriesNode* temp=t->root;
+    t->f(s,temp,0,"",ans);
+
+    return ans;
+
+} 
