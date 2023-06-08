@@ -1,0 +1,62 @@
+double median(vector<int> a, vector<int> b)
+
+{
+
+    vector<int> v;
+
+    
+
+    int y;
+
+    double res;
+
+    
+
+    copy(a.begin(),a.end(),back_inserter(v));
+
+    copy(b.begin(),b.end(),back_inserter(v));
+
+    sort(v.begin(),v.end());
+
+    // for(int i=0;i<v.size();i++)
+
+    // {
+
+    //     cout<<v[i];
+
+    // }
+
+    int n=v.size();
+
+    if(n%2==0)
+
+    {
+
+        res=(double)(v[n/2]+v[(n/2)-1])/2;
+
+    }
+
+    else
+
+    {
+
+        res=v[(n/2)];
+
+    }
+
+    
+
+ 
+
+  
+
+ 
+
+    return res;
+
+    
+
+}
+
+ 
+
