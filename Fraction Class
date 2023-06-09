@@ -1,0 +1,69 @@
+#include <bits/stdc++.h> 
+#include<iostream>
+
+#include<algorithm>
+
+using namespace std;
+
+class Fraction {
+    private:
+        // Num = Numerator, Den = Denominator.  
+        int Num, Den;
+    public:
+        Fraction(int N, int D){
+            Num = N;
+            Den = D;
+        }
+
+        void Add(Fraction &F){
+            if(Den == F.Den){
+                Num += F.Num;
+            } else{
+                Num = (Num * F.Den) + (F.Num * Den);
+                Den *= F.Den;
+            }
+        }
+
+        void Multiply(Fraction &F){
+            Num = this->Num * F.Num;
+            Den = this->Den * F.Den;
+        }
+
+        int Simplify(int N, int D){
+            return __gcd(N, D);
+        }
+
+        void Print(){
+            int Sim = Simplify(Num, Den);
+            cout << Num/Sim << "/" << Den/Sim << endl;
+        }
+};
+
+int main() {
+
+    int Num, Den;
+    cin >> Num >> Den;
+
+    Fraction *obj = new Fraction(Num, Den);
+
+    int query;
+    cin >> query;
+
+    while(query--){
+        int operation, N, D;
+        cin >> operation >> N >> D;
+
+        Fraction *newobj = new Fraction(N, D);
+
+        if(operation == 1){
+            obj->Add(*newobj);
+            obj->Print();
+        } 
+        else if (operation == 2){
+            obj->Multiply(*newobj);
+            obj->Print();
+        }
+    }
+
+    return 0;
+}
