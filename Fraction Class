@@ -1,69 +1,142 @@
-#include <bits/stdc++.h> 
-#include<iostream>
+#include <bits/stdc++.h>
 
-#include<algorithm>
+#include <iostream>
+
+ 
+
+#include <algorithm>
+
+ 
 
 using namespace std;
 
-class Fraction {
-    private:
-        // Num = Numerator, Den = Denominator.  
-        int Num, Den;
-    public:
-        Fraction(int N, int D){
-            Num = N;
-            Den = D;
-        }
+ 
 
-        void Add(Fraction &F){
-            if(Den == F.Den){
-                Num += F.Num;
-            } else{
-                Num = (Num * F.Den) + (F.Num * Den);
-                Den *= F.Den;
-            }
-        }
+class Fraction
 
-        void Multiply(Fraction &F){
-            Num = this->Num * F.Num;
-            Den = this->Den * F.Den;
-        }
+{
 
-        int Simplify(int N, int D){
-            return __gcd(N, D);
-        }
+public:
 
-        void Print(){
-            int Sim = Simplify(Num, Den);
-            cout << Num/Sim << "/" << Den/Sim << endl;
-        }
-};
+    int numerator;
 
-int main() {
+    int denominator;
 
-    int Num, Den;
-    cin >> Num >> Den;
+ 
 
-    Fraction *obj = new Fraction(Num, Den);
+    Fraction(int num, int den)
 
-    int query;
-    cin >> query;
+    {
 
-    while(query--){
-        int operation, N, D;
-        cin >> operation >> N >> D;
+        this->numerator = num;
 
-        Fraction *newobj = new Fraction(N, D);
+        this->denominator = den;
 
-        if(operation == 1){
-            obj->Add(*newobj);
-            obj->Print();
-        } 
-        else if (operation == 2){
-            obj->Multiply(*newobj);
-            obj->Print();
-        }
     }
 
+    void add(Fraction obj)
+
+    {
+
+        int num_i = numerator * obj.denominator + obj.numerator * denominator;
+
+        int den_i = denominator * obj.denominator;
+
+        numerator = num_i;
+
+        denominator = den_i;
+
+    }
+
+    void multiply(Fraction obj)
+
+    {
+
+        int num_i = numerator * obj.numerator;
+
+        int den_i = denominator * obj.denominator;
+
+        numerator = num_i;
+
+        denominator = den_i;
+
+    }
+
+    void simplify()
+
+    {
+
+        int gcd = __gcd(numerator, denominator);
+
+        numerator = numerator / gcd;
+
+        denominator = denominator / gcd;
+
+    }
+
+    void print()
+
+    {
+
+        cout << numerator << "/" << denominator << endl;
+
+    }
+
+};
+
+ 
+
+int main()
+
+{
+
+    int num_1, den_1, num_2, den_2;
+
+    int query, type;
+
+    cin >> num_1 >> den_1;
+
+    Fraction f1(num_1, den_1);
+
+    cin >> query;
+
+    while (query--)
+
+    {
+
+        cin >> type >> num_2 >> den_2;
+
+        Fraction f2(num_2, den_2);
+
+        if (type == 1)
+
+        {
+
+            f1.add(f2);
+
+        }
+
+        else if (type == 2)
+
+        {
+
+            f1.multiply(f2);
+
+        }
+
+ 
+
+        f1.simplify();
+
+ 
+
+        f1.print();
+
+    }
+
+ 
+
     return 0;
+
 }
+
