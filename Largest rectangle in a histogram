@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+/*
+Explanation - 
+
+1) The height of a rectangle can only be one of the heights provided in the 'heights' array.
+
+2) So we will try to find the best possible rectangle for each height.
+
+3) Now for each height our job is to find out till when this particular height sustains on the left and right.
+…
+9) Therefore Best area for a particular index = heights[i] * (ns[i] - ps[i] - 1);
+
+10) The best of all the areas in the required result.
+*/
+void prev_smaller(vector<int> &arr, vector<int> &v, int n){
+    // to find next smaller index
+    stack<int> st;
+    for(int i=0;i<n;i++){
+        if(st.empty()){
+            st.push(i); continue;
+        }
+        while(!st.empty() and v[i] <= v[st.top()]) st.pop();
+        if(st.empty()) st.push(i);
+        else arr[i] = st.top(), st.push(i);
+    }
+}
+void next_smaller(vector<int> &arr, vector<int> &v, int n){
+    // to find previous smaller index
+    stack<int> st;
+    for(int i=n-1;i>=0;i--){
+        if(st.empty()){
+            st.push(i); continue;
+        }
+        while(!st.empty() and v[i] <= v[st.top()]) st.pop();
+        if(st.empty()) st.push(i);
+        else arr[i] = st.top(), st.push(i);
+    }
+}
+int largestRectangle(vector<int> &heights) {
+    int n = heights.size();
+    // ns and ps arrays
+    vector<int> ns(n, n), ps(n, -1);
+    next_smaller(ns, heights, n);
+    prev_smaller(ps, heights, n);
+    int ans = 0; // initial answer
+    for(int i=0;i<n;i++)
+        ans = max(ans, heights[i] * (ns[i] - ps[i] - 1));
+    
+    return ans;
+}
