@@ -1,0 +1,68 @@
+int length(Node *head){
+
+    Node *temp=head;
+
+    int count=0;
+
+    while(temp!=NULL){
+
+        count+=1;
+
+        temp=temp->next;
+
+    }
+
+    return count;
+
+}
+
+ 
+
+Node *rotate(Node *head, int k) {
+
+     // Write your code here.
+
+     if(head==NULL || k==0 || head->next==NULL) return head;
+
+     Node *prev=NULL,*curr=head,*temp;
+
+     int lengthh=length(head);
+
+     if(lengthh==k) return head;
+
+     k=k%lengthh;
+
+     int n=lengthh-k;
+
+     int i=0;
+
+     while(i!=n){
+
+         prev=curr;
+
+         curr=curr->next;
+
+         i++;
+
+     }
+
+     prev->next=NULL;
+
+     temp=curr;
+
+     while(temp->next!=NULL){
+
+         temp=temp->next;
+
+     }
+
+     temp->next=head;
+
+     return curr;
+
+     
+
+ 
+
+}
+
