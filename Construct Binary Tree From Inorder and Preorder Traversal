@@ -1,0 +1,75 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+
+	TreeNode<int>* construct(vector<int>inorder,int istart,int iend,
+
+vector<int>preorder,int pstart,int pend){
+
+ 
+
+if(istart>iend || pstart>pend) return NULL;
+
+ 
+
+vector<int>::iterator it;
+
+it=find(inorder.begin(),inorder.end(),preorder[pstart]);
+
+ 
+
+if(it==inorder.end()) return NULL;
+
+int idx=it-inorder.begin();
+
+int count=idx-istart;
+
+ 
+
+TreeNode<int>* root=new TreeNode<int>(preorder[pstart]);
+
+ 
+
+root->left= construct(inorder,istart,idx-1,preorder,pstart+1,pstart+count);
+
+root->right=construct(inorder,idx+1,iend,preorder,pstart+count+1,pend);
+
+return root;
+
+ 
+
+}
+
+ 
+
+TreeNode<int> *buildBinaryTree(vector<int> &inorder, vector<int> &preorder)
+
+{
+
+ 
+
+    
+
+    return construct(inorder,0,inorder.size()-1,preorder,0,preorder.size()-1);
+
+}
+
+ 
